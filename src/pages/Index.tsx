@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -9,12 +10,12 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState('biography');
 
   const works = [
-    { title: 'Евгений Онегин', year: '1823-1831', category: 'Роман в стихах' },
-    { title: 'Капитанская дочка', year: '1836', category: 'Повесть' },
-    { title: 'Борис Годунов', year: '1825', category: 'Драма' },
-    { title: 'Руслан и Людмила', year: '1820', category: 'Поэма' },
-    { title: 'Медный всадник', year: '1833', category: 'Поэма' },
-    { title: 'Повести Белкина', year: '1830', category: 'Проза' }
+    { id: 'evgeniy-onegin', title: 'Евгений Онегин', year: '1823-1831', category: 'Роман в стихах' },
+    { id: 'kapitanskaya-dochka', title: 'Капитанская дочка', year: '1836', category: 'Повесть' },
+    { id: 'boris-godunov', title: 'Борис Годунов', year: '1825', category: 'Драма' },
+    { id: 'ruslan-i-lyudmila', title: 'Руслан и Людмила', year: '1820', category: 'Поэма' },
+    { id: 'medniy-vsadnik', title: 'Медный всадник', year: '1833', category: 'Поэма' },
+    { id: 'povesti-belkina', title: 'Повести Белкина', year: '1830', category: 'Проза' }
   ];
 
   const timeline = [
@@ -143,15 +144,21 @@ const Index = () => {
             <h2 className="text-3xl font-bold mb-8 text-primary">Произведения</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {(searchQuery ? filteredWorks : works).map((work, index) => (
-                <Card key={index} className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
-                  <div className="mb-3">
-                    <span className="text-xs font-semibold text-secondary bg-secondary/10 px-3 py-1 rounded-full">
-                      {work.category}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-primary">{work.title}</h3>
-                  <p className="text-muted-foreground">{work.year}</p>
-                </Card>
+                <Link key={index} to={`/work/${work.id}`}>
+                  <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer h-full">
+                    <div className="mb-3">
+                      <span className="text-xs font-semibold text-secondary bg-secondary/10 px-3 py-1 rounded-full">
+                        {work.category}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-primary">{work.title}</h3>
+                    <p className="text-muted-foreground mb-3">{work.year}</p>
+                    <div className="flex items-center gap-2 text-secondary text-sm font-medium">
+                      <span>Читать полностью</span>
+                      <Icon name="ArrowRight" size={16} />
+                    </div>
+                  </Card>
+                </Link>
               ))}
             </div>
             {searchQuery && filteredWorks.length === 0 && (
